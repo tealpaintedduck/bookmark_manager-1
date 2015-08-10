@@ -16,8 +16,12 @@
 # users commonly want.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+
+require File.join(File.dirname(__FILE__), '..', 'app/bookmark_manager.rb')
+
 require 'capybara/rspec'
 
+Capybara.app = BookMarkManager
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate

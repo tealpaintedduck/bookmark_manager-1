@@ -1,5 +1,5 @@
 require 'spec_helper'
-require_relative '../../data_mapper_setup'
+require './data_mapper_setup'
 
 feature 'Viewing links' do
   scenario 'I can see existing links on the link page' do
