@@ -20,6 +20,7 @@
 require File.join(File.dirname(__FILE__), '..', 'app/bookmark_manager.rb')
 
 require 'capybara/rspec'
+require 'database_cleaner'
 
 Capybara.app = BookMarkManager
 
@@ -101,4 +102,17 @@ RSpec.configure do |config|
   # as the one that triggered the failure.
   Kernel.srand config.seed
 =end
+  #database_cleaner configure code
+  config.before(:suite) do
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
+  end
 end
