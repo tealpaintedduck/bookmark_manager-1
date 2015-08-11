@@ -1,7 +1,8 @@
 require 'spec_helper'
 require './data_mapper_setup'
 
-feature 'creating new links' do
+feature 'creating new links with tags' do
+
   scenario 'there are no links in the database at the start of the test' do
     expect(Link.count).to eq 0
   end
@@ -10,11 +11,22 @@ feature 'creating new links' do
     visit '/links/new'
     fill_in 'url', with: 'http://www.zombo.com'
     fill_in 'title', with: 'This is Zombocom'
+    fill_in 'tag', with: 'stupid'
     click_button 'Create link'
     expect(current_path).to eq '/links'
 
     within 'ul#links' do
       expect(page).to have_content('This is Zombocom')
     end
+  end
+
+  scenario 'can add single tag to a new link' do
+    visit '/links/new'
+    fill_in 'url', with: 'http://www.zombo.com'
+    fill_in 'title', with: 'This is Zombocom'
+    fill_in 'tag', with: 'stupid'
+    click_button 'Create link'
+    link = Link.first
+    expect(link.tags.map(&:name)).to include('stupid')
   end
 end
