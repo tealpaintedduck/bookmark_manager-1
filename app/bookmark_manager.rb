@@ -40,21 +40,23 @@ class BookMarkManager < Sinatra::Base
   end
 
   get '/users/new' do
+    @user = User.new
     erb :'users/new'
   end
 
   post '/users' do
-    redirect '/users/new' if params[:email] == '' || params[:password] == ''
-    user = User.create(email: params[:email],
+    @user = User.create(email: params[:email],
                       password: params[:password],
                       password_confirmation: params[:password_confirmation])
-    if user.save
-      session[:user_id] = user.id
+
+    redirect '/users/new' unless @user #.email && @user.password
+    if @user.save
+      session[:user_id] = @user.id
       redirect '/links'
     else
-      flash.now[:notice] = "Password and confirmation password do not match"
-      erb :'users/new'
+      params[:email] == "" ? (flash.now[:notice] = "Please enter email") : (flash.now[:notice] = "Password and confirmation password do not match")
     end
+    erb :'users/new'
   end
 
   helpers do
