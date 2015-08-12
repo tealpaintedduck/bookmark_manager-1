@@ -21,8 +21,10 @@ class BookMarkManager < Sinatra::Base
 
   post '/links' do
     link = Link.new(url: params[:url], title: params[:title])
-    tag = Tag.create(name: params[:tag])
-    link.tags << tag
+    params[:tag].split(', ').each do |t|
+      tag = Tag.create(name: t)
+      link.tags << tag
+    end
     link.save
     redirect '/links'
   end
