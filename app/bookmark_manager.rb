@@ -44,7 +44,8 @@ class BookMarkManager < Sinatra::Base
   post '/users' do
     redirect '/users/new' if params[:email] == '' || params[:password] == ''
     user = User.create(email: params[:email],
-                      password: params[:password])
+                      password: params[:password],
+                      password_confirmation: params[:password_confirmation])
     session[:user_id] = user.id
     redirect '/'
   end
