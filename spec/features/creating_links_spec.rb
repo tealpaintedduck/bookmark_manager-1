@@ -1,6 +1,3 @@
-require 'spec_helper'
-require './data_mapper_setup'
-
 feature 'creating new links with tags' do
 
   scenario 'there are no links in the database at the start of the test' do
