@@ -6,7 +6,7 @@ require 'factory_girl'
 require './spec/helpers/session'
 require_relative './factories/user'
 
-Capybara.app = BookMarkManager
+Capybara.app = Armadillo::BookMarkManager
 
 RSpec.configure do |config|
 
