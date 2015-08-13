@@ -5,9 +5,11 @@
   </head>
 
   <body>
+
     <% if current_user %>
       Welcome, <%= current_user.email %>
     <% end %>
+
     <% if flash[:errors] && !flash[:errors].empty? %>
       Please refer to the following errors below:
       <ul id = "errors">
@@ -16,6 +18,7 @@
         <% end %>
       </ul>
     <% end %>
+
     <%= yield %>
   </body>
 
