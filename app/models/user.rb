@@ -16,8 +16,17 @@ class User
     self.password_digest = BCrypt::Password.create(password)
   end
 
+  def self.authenticate(email,password)
+    user = first(email: email)
+    if user && BCrypt::Password.new(user.password_digest) == password
+      user
+    else
+      nil
+    end
+  end
+
   validates_confirmation_of :password
-  #validates_presence_of :email       # implied by required: true (in DataMapper)
   validates_presence_of :password
+  validates_uniqueness_of :email
 
 end

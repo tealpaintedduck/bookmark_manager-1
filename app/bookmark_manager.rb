@@ -54,9 +54,24 @@ class BookMarkManager < Sinatra::Base
       session[:user_id] = @user.id
       redirect '/links'
     else
-      params[:email] == "" ? (flash.now[:notice] = "Please enter email") : (flash.now[:notice] = "Password and confirmation password do not match")
+      flash.now[:errors] = @user.errors.full_messages
+      erb :'users/new'
     end
-    erb :'users/new'
+  end
+
+  get '/sessions/new' do
+    erb :'sessions/new'
+  end
+
+  post '/sessions' do
+    user = User.authenticate(params[:email],params[:password])
+    if user
+      session[:user_id] = user.id
+      redirect to('/links')
+    else
+      flash.now[:errors] = "The email or password is incorrect"
+      erb :'sessions/new'
+    end
   end
 
   helpers do
