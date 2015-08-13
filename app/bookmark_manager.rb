@@ -5,6 +5,7 @@ require './data_mapper_setup'
 require 'sinatra/flash'
 
 class BookMarkManager < Sinatra::Base
+  use Rack::MethodOverride
   set :views, proc { File.join(root, '..', 'views') }
   enable :sessions
   set :session_secret, 'super secret'
@@ -72,6 +73,11 @@ class BookMarkManager < Sinatra::Base
       flash.now[:errors] = ["The email or password is incorrect"]
       erb :'sessions/new'
     end
+  end
+
+  delete '/sessions' do
+    session[:user_id] = nil
+    erb :'sessions/goodbye'
   end
 
   helpers do
